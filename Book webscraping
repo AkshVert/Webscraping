@@ -1,0 +1,15 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.bookdepository.com/bestsellers'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+books = []
+for book in soup.find_all('div', class_='item-info'):
+    title = book.find('h3', class_='title').text.strip()
+    price = book.find('p', class_='price').text.strip()
+    books.append({'Title': title, 'Price': price})
+
+for book in books:
+    print(f"Title: {book['Title']}\nPrice: {book['Price']}\n")
